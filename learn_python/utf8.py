@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+#
+# utf-8字符串的理解
+#
+
 print ('ABC'.encode('ascii'))
 print ('中文'.encode('utf-8'))
 

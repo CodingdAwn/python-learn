@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+#
+# 使用循环遍历
+#
+
 #遍历字典
 d = {'a':1, 'b':2, 'c':3}
 print ('遍历key: ')

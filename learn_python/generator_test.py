@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+#
+# 生成器的练习
+#
+
 print('列表生成式')
 L = [x *x for x in range(10)]
 print(L)

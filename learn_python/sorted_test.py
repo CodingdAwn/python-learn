@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+#
+# 排序算法
+#
+
 print(sorted([36,5,-12,9,-21]))
 print(sorted([36,5,-12,9,-21], key=abs))
 

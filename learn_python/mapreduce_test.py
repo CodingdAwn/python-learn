@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+#
+# reduce map等高阶函数的练习 
+#
+
 L1 = ['adam', 'LISA', 'barT']
 def normalize(name):
     name = name[0].upper() + name[1:].lower()

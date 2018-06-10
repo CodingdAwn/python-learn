@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-#列表生成式
+# 列表生成式
+
 print('list(range(1,11)): ')
 print(list(range(1, 11)))
 

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+#
+# 装饰器的练习
+#
+
 def now():
     print('2018-6-6')
 

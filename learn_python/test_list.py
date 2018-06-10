@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+#
+# list 包括 []  ()
+#
+
 classmates = ['dAwn', 'Bob', 'breAks']
 print (classmates)
 print (classmates[-1])
