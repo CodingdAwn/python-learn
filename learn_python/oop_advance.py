@@ -19,3 +19,20 @@ a = Student()
 # print(a.score)
 a.score = 10
 print(a.score)
+
+
+# 使用type可以创建类
+# 实际上python中class 在解释器处理时也是用type来创建的
+# 也就是python这种动态语言的优势 可以动态创建类
+
+def fn(self, name='world'):
+    print('Hello %s' % name)
+
+
+Hello = type('Hello', (object,), dict(hello = fn))
+
+h = Hello()
+h.hello()
+
+
+# metaclass
