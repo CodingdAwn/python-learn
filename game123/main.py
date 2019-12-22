@@ -6,11 +6,12 @@ kNumberPool = [1, 2, 3]
 kOperatorPool = ['+', '-']
 
 print('hello world!')
-print('print number pool is %s' % kNumberPool.__str__)
-print('number is %d' % kNumberPool[0])
 
 def plus(l, r):
     return l + r
+
+def sub(l, r):
+    return l - r
 
 def maxNumber():
     count = len(kNumberPool)
@@ -19,11 +20,32 @@ def maxNumber():
 def minNumber():
     return kNumberPool[0]
 
+def randomOperator(last_result):
+    if last_result == minNumber():
+        return '+'
+    elif last_result == maxNumber():
+        return '-'
+    else:
+        return random.choice(kOperatorPool)
+
+def randomPlus(last_result):
+    left = maxNumber() - last_result
+    return random.randint(1, left)
+
+def randomSub(last_result):
+    left = last_result - minNumber()
+    return random.randint(1, left)
+
 def randomNumber(last_result):
+    operate = randomOperator(last_result)
+    print('operate is %s' % operate)
+    if (operate == '+'):
+        return randomPlus(last_result)
+    else:
+        return randomSub(last_result)
 
-    return random.randint(1, 3)
+first = random.choice(kNumberPool)
+print('first is %d' % first)
+second = randomNumber(first)
+print('second is %d' % second)
 
-print('number begin is %d, end is %d' % (minNumber(), maxNumber()))
-r1 = minNumber()
-r2 = maxNumber()
-print('%d + %d = %d' % (r1, r2, plus(r1, r2)))
