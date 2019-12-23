@@ -2,10 +2,12 @@ import os
 import string
 import random
 
-kNumberPool = [1, 2, 3]
-kOperatorPool = ['+', '-']
-
 print('hello world!')
+kMaxNumber = 3
+kMinNumber = 1
+kOperatorPool = ['+', '-']
+kQuestion = ""
+kDiffcult = 5
 
 def plus(l, r):
     return l + r
@@ -13,39 +15,43 @@ def plus(l, r):
 def sub(l, r):
     return l - r
 
-def maxNumber():
-    count = len(kNumberPool)
-    return kNumberPool[count - 1]
-
-def minNumber():
-    return kNumberPool[0]
 
 def randomOperator(last_result):
-    if last_result == minNumber():
+    if last_result == kMinNumber:
         return '+'
-    elif last_result == maxNumber():
+    if last_result == kMaxNumber:
         return '-'
-    else:
-        return random.choice(kOperatorPool)
+    return random.choice(kOperatorPool)
 
 def randomPlus(last_result):
-    left = maxNumber() - last_result
-    return random.randint(1, left)
+    left = kMaxNumber - last_result
+    return random.randint(kMinNumber, left)
 
 def randomSub(last_result):
-    left = last_result - minNumber()
-    return random.randint(1, left)
+    left = last_result - kMinNumber
+    return random.randint(kMinNumber, left)
 
 def randomNumber(last_result):
+    print('last number is %d' % last_result)
     operate = randomOperator(last_result)
-    print('operate is %s' % operate)
+    print('operator this time %s' % operate)
+    global kQuestion
+    kQuestion += operate
+
+    random_result = 0;
     if (operate == '+'):
-        return randomPlus(last_result)
+        random_result = randomPlus(last_result)
+        last_result += random_result
     else:
-        return randomSub(last_result)
+        random_result = randomSub(last_result)
+        last_result -= random_result
+    kQuestion += str(random_result)
+    return last_result
 
-first = random.choice(kNumberPool)
-print('first is %d' % first)
-second = randomNumber(first)
-print('second is %d' % second)
+last = random.randint(kMinNumber, kMaxNumber)
+kQuestion += str(last)
 
+for i in range(kDiffcult):
+    last = randomNumber(last)
+
+print(kQuestion)
