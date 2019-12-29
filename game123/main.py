@@ -1,57 +1,46 @@
-import os
-import string
-import random
+import question, os, signal
 
-print('hello world!')
-kMaxNumber = 3
-kMinNumber = 1
-kOperatorPool = ['+', '-']
-kQuestion = ""
-kDiffcult = 5
+kTimeout = 5
+kCorrectNum = 0
+kLevelUpPhase = set([2,4,6,8,10,12,14,16])
+def LevelUp():
+    if kCorrectNum in kLevelUpPhase:
+        question.kDiffcult += 1
 
-def plus(l, r):
-    return l + r
+def OnCorrect():
+    global kCorrectNum;
+    kCorrectNum += 1
+    LevelUp()
 
-def sub(l, r):
-    return l - r
+class InputTimeoutError(Exception):
+    pass
 
+def interrupted(signum, frame):
+    raise InputTimeoutError
 
-def randomOperator(last_result):
-    if last_result == kMinNumber:
-        return '+'
-    if last_result == kMaxNumber:
-        return '-'
-    return random.choice(kOperatorPool)
+def main():
+    while(1):
+        q = question.generate()
+        print(q)
+        print(q[1])
 
-def randomPlus(last_result):
-    left = kMaxNumber - last_result
-    return random.randint(kMinNumber, left)
+        #一定时间内不输入就算失败
+        signal.signal(signal.SIGALRM, interrupted)
+        signal.alarm(kTimeout)
+        try:
+            answer = input("enter your answer:")
+        except InputTimeoutError:
+            print("time out!")
+            break;
+        #print("answer is %s, god mode is %d" % (answer, q[0]))
+        signal.alarm(0)
+        if (int(answer) == q[0]):
+            print("right! next is :")
+            OnCorrect();
+        else:
+            break
 
-def randomSub(last_result):
-    left = last_result - kMinNumber
-    return random.randint(kMinNumber, left)
+    print("game over!")
 
-def randomNumber(last_result):
-    print('last number is %d' % last_result)
-    operate = randomOperator(last_result)
-    print('operator this time %s' % operate)
-    global kQuestion
-    kQuestion += operate
-
-    random_result = 0;
-    if (operate == '+'):
-        random_result = randomPlus(last_result)
-        last_result += random_result
-    else:
-        random_result = randomSub(last_result)
-        last_result -= random_result
-    kQuestion += str(random_result)
-    return last_result
-
-last = random.randint(kMinNumber, kMaxNumber)
-kQuestion += str(last)
-
-for i in range(kDiffcult):
-    last = randomNumber(last)
-
-print(kQuestion)
+if __name__ == '__main__':
+    main()
