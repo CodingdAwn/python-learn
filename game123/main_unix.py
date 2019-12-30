@@ -35,12 +35,12 @@ def main():
         #print("answer is %s, god mode is %d" % (answer, q[0]))
         signal.alarm(0)
         if (int(answer) == q[0]):
-            print("right! next is :")
             OnCorrect();
+            print("right! score is %d next is :" % kCorrectNum)
         else:
             break
 
-    print("game over!")
+    print("game over! final score is %d" % kCorrectNum)
 
 if __name__ == '__main__':
     main()
