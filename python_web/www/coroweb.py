@@ -58,7 +58,7 @@ def has_named_kw_args(fn):
             return True
 
 def has_var_kw_arg(fn):
-    params = inspect.signature(fn)
+    params = inspect.signature(fn).parameters
     for name, param in params.items():
         if param.kind == inspect.Parameter.VAR_KEYWORD:
             return True
@@ -85,6 +85,8 @@ class RequestHandler(object):
         self._has_named_kw_args = has_named_kw_args(fn)
         self._named_kw_args = get_named_kw_args(fn)
         self._required_kw_args = get_required_kw_args(fn)
+
+        logging.info('RequestHandler init fn is %s' % self._func)
 
     async def __call__(self, request):
         kw = None
@@ -133,7 +135,9 @@ class RequestHandler(object):
                     return web.HTTPBadRequest(text = 'Missing argument: %s' % name)
         logging.info('call with args: %s' % str(kw))
         try:
+            logging.info('2222 %s' % self._func)
             r = await self._func(**kw)
+            logging.info('3333 %s %s' % (r, self._func))
             return r
         except APIError as e:
             return dict(error = r.error, data = e.data, message = e.message)
@@ -152,6 +156,7 @@ def add_route(app, fn):
     if not asyncio.iscoroutinefunction(fn) and not inspect.isgeneratorfunction(fn):
         fn = asyncio.coroutine(fn)
     logging.info('add route %s %s => %s(%s)' % (method, path, fn.__name__, ', '.join(inspect.signature(fn).parameters.keys())))
+    logging.info('add_route fn address is %s' % fn)
     app.router.add_route(method, path, RequestHandler(app, fn))
 
 def add_routes(app, module_name):
@@ -168,5 +173,6 @@ def add_routes(app, module_name):
         if callable(fn):
             method = getattr(fn, '__method__', None)
             path = getattr(fn, '__route__', None)
+            logging.info('0000 %s' % fn)
             if method and path:
                 add_route(app, fn)
