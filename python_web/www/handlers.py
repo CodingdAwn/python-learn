@@ -13,8 +13,9 @@ from models import User, Comment, Blog, next_id
 
 @get('/')
 async def index(request):
-    users = await User.findAll()
+    findUsers = await User.findAll()
     return {
-        '__template__': 'test.html',
-        'users': users
+        # 教程这里是template 而在app.py中调用时却使用的templating
+        '__templating__': 'test.html',
+        'users': findUsers
     }

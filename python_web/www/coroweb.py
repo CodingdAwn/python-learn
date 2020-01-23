@@ -133,11 +133,8 @@ class RequestHandler(object):
             for name in self._required_kw_args:
                 if not name in kw:
                     return web.HTTPBadRequest(text = 'Missing argument: %s' % name)
-        logging.info('call with args: %s' % str(kw))
         try:
-            logging.info('2222 %s' % self._func)
             r = await self._func(**kw)
-            logging.info('3333 %s %s' % (r, self._func))
             return r
         except APIError as e:
             return dict(error = r.error, data = e.data, message = e.message)
@@ -173,6 +170,5 @@ def add_routes(app, module_name):
         if callable(fn):
             method = getattr(fn, '__method__', None)
             path = getattr(fn, '__route__', None)
-            logging.info('0000 %s' % fn)
             if method and path:
                 add_route(app, fn)
